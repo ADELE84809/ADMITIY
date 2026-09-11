@@ -5,6 +5,7 @@ import './index.css'
 import App from './App'
 import Auth from './pages/Auth'
 import { AuthProvider, useAuth } from './lib/AuthContext'
+import ErrorBoundary from './components/ErrorBoundary'
 import Dashboard from './pages/Dashboard'
 import Universities from './pages/Universities'
 import UniversityDetail from './pages/UniversityDetail'
@@ -55,8 +56,10 @@ function AuthGate() {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <AuthGate />
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <AuthGate />
+      </AuthProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 )

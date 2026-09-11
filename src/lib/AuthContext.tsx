@@ -17,10 +17,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setUser(data.session?.user || null)
-      setLoading(false)
-    })
+    supabase.auth.getSession()
+      .then(({ data }) => {
+        setUser(data.session?.user || null)
+      })
+      .catch((err) => {
+        console.error('Auth session error:', err)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
 
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user || null)
