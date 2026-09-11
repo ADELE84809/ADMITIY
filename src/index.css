@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-neutral-50 text-neutral-900 font-sans;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-thumb {
+    @apply bg-neutral-300 rounded-full;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-5 py-2.5 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-all duration-200 active:scale-95 shadow-sm;
+  }
+  .btn-secondary {
+    @apply px-5 py-2.5 bg-white text-neutral-700 font-medium rounded-lg border border-neutral-200 hover:bg-neutral-50 transition-all duration-200 active:scale-95;
+  }
+  .btn-accent {
+    @apply px-5 py-2.5 bg-accent-500 text-white font-medium rounded-lg hover:bg-accent-600 transition-all duration-200 active:scale-95 shadow-sm;
+  }
+  .card {
+    @apply bg-white rounded-xl border border-neutral-200 shadow-sm;
+  }
+  .card-hover {
+    @apply card hover:shadow-lg hover:border-neutral-300 transition-all duration-300;
+  }
+  .input-field {
+    @apply w-full px-4 py-2.5 bg-white border border-neutral-200 rounded-lg text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .section-title {
+    @apply text-2xl font-bold text-neutral-900 tracking-tight;
+  }
+  .fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+  .slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+  .shimmer-bg {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s linear infinite;
+  }
+}
+
+.gradient-mesh {
+  background: linear-gradient(135deg, #eef6ff 0%, #f0fdf4 50%, #fffbeb 100%);
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #1c61f0 0%, #3380fa 100%);
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #152656 0%, #1a3c8f 50%, #1c61f0 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #1c61f0, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
