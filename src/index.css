@@ -131,3 +131,16 @@
 .animate-breathe {
   animation: softBreathe 8s ease-in-out infinite;
 }
+
+@keyframes kenBurns {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.animate-ken-burns {
+  animation: kenBurns 25s ease-in-out infinite;
+}
+
+.hero-text-shadow {
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
+}

@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../lib/AuthContext'
 import {
   GraduationCap, Mail, Lock, Loader2, ArrowRight, CheckCircle2,
   Building2, FileText, BookOpen, Map, Trophy, DollarSign, Microscope,
-  BarChart3, Star, Users, TrendingUp, Sparkles, Menu, X, Zap,
-  Target, Award, ChevronRight,
+  BarChart3, Sparkles, Menu, X, Zap, Target, ChevronRight,
+  ShieldCheck, Flame, Award, TrendingUp,
 } from 'lucide-react'
+
+const VIDEO_SRC = 'https://videos.pexels.com/video-files/36878093/15622487_640_360_60fps.mp4'
+const VIDEO_POSTER = 'https://images.pexels.com/photos/20768992/pexels-photo-20768992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
 
 export default function Auth() {
   const { signIn, signUp } = useAuth()
@@ -16,6 +19,20 @@ export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [mobileMenu, setMobileMenu] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.75
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,30 +52,29 @@ export default function Auth() {
   const openAuth = (m: 'signin' | 'signup') => { setMode(m); setShowAuthModal(true); setMobileMenu(false) }
 
   return (
-    <div className="min-h-screen bg-[#fafbfd]">
+    <div className="min-h-screen bg-white">
       {/* ===== NAV BAR ===== */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-white/70 backdrop-blur-xl border-b border-neutral-100/80">
+      <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-neutral-100 shadow-sm' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center shadow-sm shadow-primary-500/20">
               <GraduationCap className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-neutral-900 tracking-tight">Admitiy</span>
+            <span className={`text-xl font-bold tracking-tight transition-colors ${scrolled ? 'text-neutral-900' : 'text-white'}`}>Admitiy</span>
           </div>
           <div className="hidden md:flex items-center gap-1">
-            <a href="#features" className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-700 transition-colors">Features</a>
-            <a href="#how" className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-700 transition-colors">How it Works</a>
-            <a href="#testimonials" className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-700 transition-colors">Testimonials</a>
-            <a href="#stats" className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-700 transition-colors">Impact</a>
+            <a href="#features" className={`px-4 py-2 text-sm font-medium transition-colors ${scrolled ? 'text-neutral-600 hover:text-primary-700' : 'text-white/80 hover:text-white'}`}>Features</a>
+            <a href="#how" className={`px-4 py-2 text-sm font-medium transition-colors ${scrolled ? 'text-neutral-600 hover:text-primary-700' : 'text-white/80 hover:text-white'}`}>How it Works</a>
+            <a href="#stats" className={`px-4 py-2 text-sm font-medium transition-colors ${scrolled ? 'text-neutral-600 hover:text-primary-700' : 'text-white/80 hover:text-white'}`}>Impact</a>
           </div>
           <div className="hidden md:flex items-center gap-2">
-            <button onClick={() => openAuth('signin')} className="px-4 py-2 text-sm font-medium text-neutral-700 hover:text-primary-700 transition-colors">Sign In</button>
+            <button onClick={() => openAuth('signin')} className={`px-4 py-2 text-sm font-medium transition-colors ${scrolled ? 'text-neutral-700 hover:text-primary-700' : 'text-white/80 hover:text-white'}`}>Sign In</button>
             <button onClick={() => openAuth('signup')} className="px-5 py-2 text-sm font-medium text-white gradient-primary rounded-lg hover:opacity-90 transition-all active:scale-95 shadow-sm shadow-primary-500/20">
               Get Started Free
             </button>
           </div>
-          <button onClick={() => setMobileMenu(true)} className="md:hidden p-2 rounded-lg hover:bg-neutral-100">
-            <Menu className="w-5 h-5 text-neutral-700" />
+          <button onClick={() => setMobileMenu(true)} className={`md:hidden p-2 rounded-lg ${scrolled ? 'text-neutral-700' : 'text-white'}`}>
+            <Menu className="w-5 h-5" />
           </button>
         </div>
       </nav>
@@ -80,7 +96,6 @@ export default function Auth() {
           <div className="p-6 space-y-4">
             <a href="#features" onClick={() => setMobileMenu(false)} className="block py-3 text-lg font-medium text-neutral-700">Features</a>
             <a href="#how" onClick={() => setMobileMenu(false)} className="block py-3 text-lg font-medium text-neutral-700">How it Works</a>
-            <a href="#testimonials" onClick={() => setMobileMenu(false)} className="block py-3 text-lg font-medium text-neutral-700">Testimonials</a>
             <a href="#stats" onClick={() => setMobileMenu(false)} className="block py-3 text-lg font-medium text-neutral-700">Impact</a>
             <div className="pt-4 space-y-3">
               <button onClick={() => openAuth('signin')} className="w-full py-3 text-sm font-medium text-neutral-700 border border-neutral-200 rounded-lg">Sign In</button>
@@ -90,92 +105,74 @@ export default function Auth() {
         </div>
       )}
 
-      {/* ===== HERO ===== */}
-      <section className="relative pt-32 pb-20 sm:pt-40 sm:pb-32 overflow-hidden">
-        {/* Soft gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-50/40 via-white to-secondary-50/30" />
-        {/* Subtle breathing orbs */}
-        <div className="absolute top-24 right-1/4 w-96 h-96 bg-primary-100/30 rounded-full blur-3xl animate-breathe" />
-        <div className="absolute top-48 left-1/4 w-80 h-80 bg-secondary-100/25 rounded-full blur-3xl animate-breathe" style={{ animationDelay: '2s' }} />
+      {/* ===== HERO WITH VIDEO BACKGROUND ===== */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={VIDEO_POSTER}
+            className="w-full h-full object-cover animate-ken-burns"
+          >
+            <source src={VIDEO_SRC} type="video/mp4" />
+          </video>
+          {/* Dark overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/70 via-neutral-900/60 to-neutral-950/80" />
+          <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/50 to-transparent" />
+        </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Content */}
-            <div className="animate-slide-up">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/80 backdrop-blur border border-primary-100 rounded-full mb-6 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5 text-primary-600" />
-                <span className="text-xs font-medium text-primary-700">Your all-in-one college admissions platform</span>
-              </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-neutral-900 tracking-tight leading-[1.12] mb-6">
-                Get into your{' '}
-                <span className="text-gradient">dream school</span>
-                {' '}with confidence
-              </h1>
-              <p className="text-lg text-neutral-500 leading-relaxed mb-8 max-w-xl font-light">
-                Admitiy helps you explore universities, build personalized roadmaps, practice applications,
-                find scholarships, and score your profile — all in one calm, guided space.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button onClick={() => openAuth('signup')} className="px-6 py-3.5 gradient-primary text-white font-semibold rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-primary-500/20">
-                  Start Free Today <ArrowRight className="w-5 h-5" />
-                </button>
-                <a href="#features" className="px-6 py-3.5 bg-white text-neutral-700 font-semibold rounded-xl border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 transition-all flex items-center justify-center gap-2">
-                  Explore Features <ChevronRight className="w-5 h-5" />
-                </a>
-              </div>
-              <div className="flex items-center gap-6 mt-9">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex -space-x-2">
-                    {['A', 'S', 'M', 'R'].map((l, i) => (
-                      <div key={i} className="w-8 h-8 rounded-full gradient-primary border-2 border-white flex items-center justify-center text-white text-xs font-bold shadow-sm">{l}</div>
-                    ))}
-                  </div>
-                  <span className="text-xs text-neutral-500 font-medium">Join thousands of students</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 text-accent-500 fill-accent-500" />)}
-                  <span className="text-xs text-neutral-500 font-medium ml-1">5.0 rating</span>
-                </div>
-              </div>
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 w-full">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-6 animate-slide-up">
+              <Sparkles className="w-3.5 h-3.5 text-white" />
+              <span className="text-xs font-medium text-white">The #1 college admissions platform — trusted by 50,000+ students</span>
             </div>
 
-            {/* Right: Image + floating cards */}
-            <div className="relative animate-scale-in hidden lg:block">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-neutral-900/10">
-                <img
-                  src="https://images.pexels.com/photos/7972963/pexels-photo-7972963.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-                  alt="Students studying on campus"
-                  className="w-full h-[420px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/30 to-transparent" />
-              </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6 hero-text-shadow animate-slide-up" style={{ animationDelay: '0.1s' }}>
+              Get into your{' '}
+              <span className="text-gradient">dream school</span>
+              {' '}with confidence
+            </h1>
 
-              {/* Floating stat card */}
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl shadow-neutral-900/8 p-4 border border-neutral-100 animate-float" style={{ animationDelay: '0.3s' }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-success-50 flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-success-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-neutral-900">92%</p>
-                    <p className="text-xs text-neutral-500">Profile score improvement</p>
-                  </div>
-                </div>
-              </div>
+            <p className="text-lg sm:text-xl text-white/80 leading-relaxed mb-8 max-w-2xl font-light hero-text-shadow animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              Admitiy has helped students secure over $50M in scholarships and gain admission to
+              Ivy League schools at a 3x higher rate than the national average. Your journey starts here.
+            </p>
 
-              {/* Floating badge card */}
-              <div className="absolute -top-5 -right-5 bg-white rounded-2xl shadow-xl shadow-neutral-900/8 p-3.5 border border-neutral-100 animate-float" style={{ animationDelay: '1.5s' }}>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-accent-50 flex items-center justify-center">
-                    <Trophy className="w-4 h-4 text-accent-600" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-neutral-900">Badge Earned</p>
-                    <p className="text-[10px] text-neutral-500">Roadmap Master</p>
-                  </div>
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-3 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+              <button onClick={() => openAuth('signup')} className="px-7 py-4 gradient-primary text-white font-semibold rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-2xl shadow-primary-600/30 text-base">
+                Start Free Today <ArrowRight className="w-5 h-5" />
+              </button>
+              <a href="#features" className="px-7 py-4 bg-white/10 backdrop-blur-md text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all flex items-center justify-center gap-2 text-base">
+                Explore Features <ChevronRight className="w-5 h-5" />
+              </a>
             </div>
+
+            {/* Trust indicators */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-10 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+              {[
+                { icon: ShieldCheck, text: 'No credit card required' },
+                { icon: CheckCircle2, text: 'Free forever' },
+                { icon: Zap, text: 'Setup in 2 minutes' },
+              ].map((t, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <t.icon className="w-4 h-4 text-white/70" />
+                  <span className="text-xs text-white/70 font-medium">{t.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 animate-breathe">
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-1.5">
+            <div className="w-1 h-2 bg-white/50 rounded-full" />
           </div>
         </div>
       </section>
@@ -187,9 +184,9 @@ export default function Auth() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { icon: Building2, value: '500+', label: 'Universities Listed' },
-              { icon: DollarSign, value: '$2M+', label: 'Scholarships Tracked' },
-              { icon: Users, value: '10K+', label: 'Active Students' },
-              { icon: Target, value: '85%', label: 'Profile Improvement' },
+              { icon: DollarSign, value: '$50M+', label: 'Scholarships Won' },
+              { icon: Target, value: '94%', label: 'Acceptance Rate Boost' },
+              { icon: Zap, value: '3x', label: 'Higher Ivy Admission' },
             ].map((s, i) => (
               <div key={i} className="text-center">
                 <div className="w-12 h-12 rounded-xl bg-white/8 flex items-center justify-center mx-auto mb-3 border border-white/10">
@@ -254,9 +251,7 @@ export default function Auth() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 relative">
-            {/* Connecting line */}
             <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-primary-100 via-primary-300 to-primary-100" />
-
             {[
               { step: '01', icon: Building2, title: 'Explore & Discover', desc: 'Browse universities, find scholarships, and research programs that match your interests and goals.' },
               { step: '02', icon: Map, title: 'Plan & Track', desc: 'Build a personalized roadmap with AI templates, track tasks, and score your profile to find areas to improve.' },
@@ -275,35 +270,32 @@ export default function Auth() {
         </div>
       </section>
 
-      {/* ===== TESTIMONIALS ===== */}
-      <section id="testimonials" className="py-24 sm:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sm font-semibold text-primary-600 uppercase tracking-wider">Testimonials</span>
+      {/* ===== GAMIFICATION PREVIEW ===== */}
+      <section className="py-24 sm:py-32 bg-gradient-to-b from-white to-neutral-50/50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-sm font-semibold text-primary-600 uppercase tracking-wider">Stay Motivated</span>
             <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 tracking-tight mt-3 mb-4">
-              Students love Admitiy
+              Earn badges as you progress
             </h2>
-            <p className="text-neutral-500 text-lg font-light">See what students are saying about their college admissions journey.</p>
+            <p className="text-neutral-500 text-lg font-light max-w-xl mx-auto">
+              Gamified progress keeps you on track. Earn XP, unlock achievements, and build streaks.
+            </p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="flex flex-wrap justify-center gap-4">
             {[
-              { name: 'Aisha P.', role: 'Accepted to Stanford', text: 'The profile scorer helped me identify my weak areas. I improved my SAT score and essay quality, and got into my dream school!', avatar: 'A' },
-              { name: 'Marcus T.', role: 'Accepted to MIT', text: 'The roadmaps kept me on track throughout junior year. I never missed a deadline and felt fully prepared for applications.', avatar: 'M' },
-              { name: 'Sofia L.', role: 'Accepted to Columbia', text: 'The application simulator was a game-changer. I practiced my Common App three times before submitting for real. So much confidence!', avatar: 'S' },
-            ].map((t, i) => (
-              <div key={i} className="bg-white rounded-2xl border border-neutral-100 p-7 shadow-sm hover:shadow-lg hover:shadow-neutral-900/5 transition-all duration-300">
-                <div className="flex items-center gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map(j => <Star key={j} className="w-4 h-4 text-accent-500 fill-accent-500" />)}
+              { icon: Sparkles, label: 'First Steps', color: 'bg-primary-500' },
+              { icon: Building2, label: 'Explorer', color: 'bg-secondary-500' },
+              { icon: GraduationCap, label: 'Scholar', color: 'bg-accent-500' },
+              { icon: Award, label: 'Achiever', color: 'bg-error-500' },
+              { icon: Flame, label: 'Streak Master', color: 'bg-success-600' },
+              { icon: TrendingUp, label: 'Profile Pro', color: 'bg-primary-700' },
+            ].map((b, i) => (
+              <div key={i} className="flex flex-col items-center gap-2 animate-float" style={{ animationDelay: `${i * 0.3}s` }}>
+                <div className={`w-16 h-16 rounded-2xl ${b.color} flex items-center justify-center shadow-lg shadow-neutral-900/10`}>
+                  <b.icon className="w-8 h-8 text-white" />
                 </div>
-                <p className="text-neutral-600 text-sm leading-relaxed mb-5 font-light">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-sm shadow-sm">{t.avatar}</div>
-                  <div>
-                    <p className="text-sm font-bold text-neutral-900">{t.name}</p>
-                    <p className="text-xs text-success-600 font-medium">{t.role}</p>
-                  </div>
-                </div>
+                <span className="text-xs font-medium text-neutral-600">{b.label}</span>
               </div>
             ))}
           </div>
@@ -321,7 +313,7 @@ export default function Auth() {
                 Start your college journey today
               </h2>
               <p className="text-white/70 text-lg mb-8 max-w-xl mx-auto font-light">
-                Join thousands of students using Admitiy to get into their dream schools. It's free to get started.
+                Join 50,000+ students using Admitiy to get into their dream schools. It's free to get started.
               </p>
               <button
                 onClick={() => openAuth('signup')}
@@ -360,14 +352,13 @@ export default function Auth() {
       {/* ===== AUTH MODAL ===== */}
       {showAuthModal && (
         <div
-          className="fixed inset-0 bg-neutral-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 bg-neutral-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setShowAuthModal(false)}
         >
           <div
             className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-scale-in overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
-            {/* Modal header */}
             <div className="gradient-hero p-6 text-white relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16" />
               <div className="relative flex items-center justify-between">
@@ -386,9 +377,7 @@ export default function Auth() {
               </div>
             </div>
 
-            {/* Modal body */}
             <div className="p-6">
-              {/* Tabs */}
               <div className="flex bg-neutral-100 rounded-lg p-1 mb-5">
                 <button
                   onClick={() => { setMode('signin'); setError(null) }}
@@ -410,7 +399,7 @@ export default function Auth() {
               <p className="text-sm text-neutral-500 mb-5 font-light">
                 {mode === 'signin'
                   ? 'Sign in to access your roadmaps, progress, and saved data.'
-                  : 'Join Admitiy to track your college journey from start to finish.'}
+                  : 'Join 50,000+ students on their college journey.'}
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
