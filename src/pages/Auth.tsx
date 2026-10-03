@@ -1,14 +1,30 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../lib/AuthContext'
 import {
   GraduationCap, Mail, Lock, Loader2, ArrowRight, CheckCircle2,
   Building2, FileText, BookOpen, Map, Trophy, DollarSign, Microscope,
   BarChart3, Sparkles, Menu, X, Zap, Target, ChevronRight,
-  ShieldCheck, Flame, Award, TrendingUp,
+  ShieldCheck, Flame, Award, TrendingUp, ArrowUpRight,
 } from 'lucide-react'
 
-const VIDEO_SRC = 'https://videos.pexels.com/video-files/36878093/15622487_640_360_60fps.mp4'
-const VIDEO_POSTER = 'https://images.pexels.com/photos/20768992/pexels-photo-20768992.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+const HERO_IMAGES = [
+  { url: 'https://images.pexels.com/photos/30719244/pexels-photo-30719244.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1', name: 'Princeton University' },
+  { url: 'https://images.pexels.com/photos/39110295/pexels-photo-39110295.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1', name: 'Historic Campus' },
+  { url: 'https://images.pexels.com/photos/234281/pexels-photo-234281.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1', name: 'Gothic Revival Hall' },
+  { url: 'https://images.pexels.com/photos/19554793/pexels-photo-19554793.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1', name: 'Autumn Quad' },
+  { url: 'https://images.pexels.com/photos/31156622/pexels-photo-31156622.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1', name: 'Classic Campus' },
+]
+
+const MARQUEE_UNIS = [
+  { name: 'Princeton University', img: 'https://images.pexels.com/photos/30719244/pexels-photo-30719244.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1' },
+  { name: 'Historic Hall', img: 'https://images.pexels.com/photos/39110295/pexels-photo-39110295.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1' },
+  { name: 'Gothic Library', img: 'https://images.pexels.com/photos/234281/pexels-photo-234281.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1' },
+  { name: 'Autumn Quad', img: 'https://images.pexels.com/photos/19554793/pexels-photo-19554793.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1' },
+  { name: 'Marquette U', img: 'https://images.pexels.com/photos/31156622/pexels-photo-31156622.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1' },
+  { name: 'Red Brick Hall', img: 'https://images.pexels.com/photos/35314982/pexels-photo-35314982.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1' },
+  { name: 'Kansas State', img: 'https://images.pexels.com/photos/396304/pexels-photo-396304.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1' },
+  { name: 'Jönköping U', img: 'https://images.pexels.com/photos/39077560/pexels-photo-39077560.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&dpr=1' },
+]
 
 export default function Auth() {
   const { signIn, signUp } = useAuth()
@@ -20,18 +36,11 @@ export default function Auth() {
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [mobileMenu, setMobileMenu] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.75
-    }
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -105,23 +114,24 @@ export default function Auth() {
         </div>
       )}
 
-      {/* ===== HERO WITH VIDEO BACKGROUND ===== */}
+      {/* ===== HERO WITH SLIDING UNIVERSITY IMAGES ===== */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Video Background */}
+        {/* Crossfading university image slideshow */}
         <div className="absolute inset-0 z-0">
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={VIDEO_POSTER}
-            className="w-full h-full object-cover animate-ken-burns"
-          >
-            <source src={VIDEO_SRC} type="video/mp4" />
-          </video>
+          {HERO_IMAGES.map((img, i) => (
+            <div
+              key={i}
+              className="hero-slide animate-ken-burns"
+              style={{
+                backgroundImage: `url(${img.url})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                animationDelay: `${i * 4.8}s, ${i * 5}s`,
+              }}
+            />
+          ))}
           {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/70 via-neutral-900/60 to-neutral-950/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/75 via-neutral-900/65 to-neutral-950/85" />
           <div className="absolute inset-0 bg-gradient-to-r from-neutral-950/50 to-transparent" />
         </div>
 
@@ -130,7 +140,7 @@ export default function Auth() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full mb-6 animate-slide-up">
               <Sparkles className="w-3.5 h-3.5 text-white" />
-              <span className="text-xs font-medium text-white">The #1 college admissions platform — trusted by 50,000+ students</span>
+              <span className="text-xs font-medium text-white">Your all-in-one college admissions companion</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-6 hero-text-shadow animate-slide-up" style={{ animationDelay: '0.1s' }}>
@@ -173,6 +183,31 @@ export default function Auth() {
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 animate-breathe">
           <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-1.5">
             <div className="w-1 h-2 bg-white/50 rounded-full" />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== UNIVERSITY MARQUEE ===== */}
+      <section className="py-10 bg-neutral-900 overflow-hidden relative">
+        <div className="text-center mb-6 px-4">
+          <span className="text-xs font-semibold text-white/50 uppercase tracking-wider">Explore campuses from top universities</span>
+        </div>
+        <div className="relative">
+          {/* Edge fades */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-neutral-900 to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-neutral-900 to-transparent z-10" />
+          {/* Sliding row */}
+          <div className="flex gap-4 animate-marquee-left w-max">
+            {[...MARQUEE_UNIS, ...MARQUEE_UNIS].map((u, i) => (
+              <div key={i} className="relative w-64 h-36 rounded-xl overflow-hidden flex-shrink-0 group cursor-pointer">
+                <img src={u.img} alt={u.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between">
+                  <span className="text-xs font-semibold text-white truncate">{u.name}</span>
+                  <ArrowUpRight className="w-4 h-4 text-white/70 group-hover:text-white transition-colors flex-shrink-0" />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -313,7 +348,7 @@ export default function Auth() {
                 Start your college journey today
               </h2>
               <p className="text-white/70 text-lg mb-8 max-w-xl mx-auto font-light">
-                Join 50,000+ students using Admitiy to get into their dream schools. It's free to get started.
+                Join students using Admitiy to get into their dream schools. It's free to get started.
               </p>
               <button
                 onClick={() => openAuth('signup')}
@@ -399,7 +434,7 @@ export default function Auth() {
               <p className="text-sm text-neutral-500 mb-5 font-light">
                 {mode === 'signin'
                   ? 'Sign in to access your roadmaps, progress, and saved data.'
-                  : 'Join 50,000+ students on their college journey.'}
+                  : 'Join Admitiy and start your college journey today.'}
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">

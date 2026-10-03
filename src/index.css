@@ -144,3 +144,34 @@
 .hero-text-shadow {
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.6);
 }
+
+@keyframes crossfade {
+  0%, 100% { opacity: 0; }
+  10%, 25% { opacity: 1; }
+  35% { opacity: 0; }
+}
+
+@keyframes marqueeLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+  animation: marqueeLeft 40s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marqueeRight 40s linear infinite;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: crossfade 24s ease-in-out infinite;
+}
