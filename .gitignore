@@ -4,3 +4,28 @@ node_modules/
 .env.*.local
 .env.production
 .env.production.local
+
+# Supabase migrations and local development
+supabase/migrations/
+.supabase/
+supabase/.env.local
+supabase/.env.*.local
+
+# Supabase CLI and project files
+.supabase/
+supabase/functions/node_modules/
+supabase/seed.sql
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
