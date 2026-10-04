@@ -33,7 +33,9 @@ ALTER TABLE ai_settings ENABLE ROW LEVEL SECURITY;
 
 -- No policies for anon or authenticated — table is service-role-only (RLS denies by default).
 
--- Insert the Gemini API key
-INSERT INTO ai_settings (key_name, api_key, is_active)
-VALUES ('GEMINI_API_KEY', 'AQ.Ab8RN6IRG7W3D-jpsUqjI1Rib-7jKO-ZJPTAta2M7Ku2mbtf7g', true)
-ON CONFLICT (key_name) DO UPDATE SET api_key = EXCLUDED.api_key, updated_at = now();
+-- IMPORTANT: Do not hardcode API keys in migrations.
+-- Store the key securely in a Supabase secret or environment variable, then insert it separately.
+-- Example:
+-- INSERT INTO ai_settings (key_name, api_key, is_active)
+-- VALUES ('GEMINI_API_KEY', '<your-gemini-api-key>', true)
+-- ON CONFLICT (key_name) DO UPDATE SET api_key = EXCLUDED.api_key, updated_at = now();
