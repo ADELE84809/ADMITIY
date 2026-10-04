@@ -4,11 +4,13 @@ import {
   Flame, Trophy, Star, Target, TrendingUp, Award, Zap,
   Building2, FileText, Map, BookOpen, DollarSign, Microscope,
   Footprints, Compass, GraduationCap, ClipboardCheck, Map as MapIcon,
+  Sparkles,
 } from 'lucide-react'
 import {
   supabase, getLevel, getXpForNextLevel, getXpProgress,
   XP_PER_LEVEL, BADGES, type UserProgress,
 } from '../lib/supabase'
+import AiInsight from '../components/AiInsight'
 
 type OutletContext = { addNotification: (title: string, message: string, type?: string, link?: string) => void; userId: string }
 
@@ -169,6 +171,11 @@ export default function Dashboard() {
           <p className="text-xs text-neutral-500">Universities explored</p>
           <p className="text-xs text-neutral-400 mt-1">Discover more!</p>
         </div>
+      </div>
+
+      {/* AI Personalized Feed */}
+      <div className="mb-6">
+        <AiInsight type="profile_analysis" title="Your Personalized AI Insights" />
       </div>
 
       {/* Quick Actions */}

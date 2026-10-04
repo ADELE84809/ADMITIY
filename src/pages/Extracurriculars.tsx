@@ -4,6 +4,7 @@ import {
   TrendingUp, Award, ChevronDown, ChevronUp, Lightbulb,
 } from 'lucide-react'
 import { supabase, type Extracurricular } from '../lib/supabase'
+import AiInsight from '../components/AiInsight'
 
 const categoryColors: Record<string, string> = {
   'STEM': 'bg-primary-100 text-primary-700',
@@ -206,6 +207,15 @@ export default function Extracurriculars() {
                         </div>
                       </div>
                     )}
+
+                    <div className="mt-2">
+                      <AiInsight
+                        type="opportunity_explanation"
+                        title="Why This Activity Fits You"
+                        compact
+                        contextData={{ opportunity: { name: a.name, category: a.category, description: a.description, impact: a.impact, prestige: a.prestige, skills: a.skills_developed, college_value: a.college_value } }}
+                      />
+                    </div>
                   </div>
                 )}
               </div>

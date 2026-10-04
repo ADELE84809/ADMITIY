@@ -190,6 +190,33 @@ export type SatResource = {
   evidence: string | null
 }
 
+export type StudentProfile = {
+  id: string
+  user_id: string
+  grade: string | null
+  gpa: string | null
+  gpa_scale: string | null
+  class_rank: string | null
+  sat_math: number | null
+  sat_reading: number | null
+  act_composite: number | null
+  test_optional: boolean
+  ap_courses: string | null
+  ib_courses: string | null
+  dual_enrollment: string | null
+  course_rigor: string | null
+  activities: unknown[] | null
+  honors: unknown[] | null
+  essay_progress: string | null
+  intended_major: string | null
+  interests: string[] | null
+  goals: string | null
+  preferred_locations: string[] | null
+  school_type_preference: string | null
+  created_at: string
+  updated_at: string
+}
+
 export const XP_PER_LEVEL = 500
 
 export function getLevel(xp: number): number {

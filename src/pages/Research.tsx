@@ -4,6 +4,7 @@ import {
   Building2, Star, Award, Target, Check,
 } from 'lucide-react'
 import { supabase, type ResearchOpportunity } from '../lib/supabase'
+import AiInsight from '../components/AiInsight'
 
 const fieldColors: Record<string, string> = {
   'STEM': 'bg-primary-100 text-primary-700',
@@ -214,6 +215,15 @@ export default function Research() {
                     >
                       Visit Program <ExternalLink className="w-3.5 h-3.5" />
                     </a>
+                  </div>
+
+                  <div className="mt-3">
+                    <AiInsight
+                      type="opportunity_explanation"
+                      title="Why This Opportunity Fits You"
+                      compact
+                      contextData={{ opportunity: { name: o.name, organization: o.organization, field: o.field, description: o.description, eligibility: o.eligibility, prestige: o.prestige, skills_gained: o.skills_gained } }}
+                    />
                   </div>
                 </div>
               </div>

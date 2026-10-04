@@ -6,6 +6,8 @@ import {
   Target, Zap, Lightbulb, ArrowRight, RefreshCw, Star,
 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import { saveStudentProfile, type StudentProfile as AiProfile } from '../lib/ai'
+import AiInsight from '../components/AiInsight'
 
 type OutletContext = { addNotification: (title: string, message: string, type?: string, link?: string) => void; userId: string }
 
@@ -86,6 +88,23 @@ export default function ProfileScorer() {
 
   const handleComplete = async () => {
     setShowResults(true)
+    const profileData: AiProfile = {
+      gpa: data.gpa,
+      gpa_scale: data.gpaScale,
+      class_rank: data.classRank,
+      sat_math: data.satMath ? parseInt(data.satMath) : null,
+      sat_reading: data.satReading ? parseInt(data.satReading) : null,
+      act_composite: data.actComposite ? parseInt(data.actComposite) : null,
+      test_optional: data.testOptional,
+      ap_courses: data.apCourses,
+      ib_courses: data.ibCourses,
+      dual_enrollment: data.dualEnrollment,
+      course_rigor: data.courseRigor,
+      activities: data.activities,
+      honors: data.honors,
+      essay_progress: data.essayProgress,
+    }
+    await saveStudentProfile(profileData).catch(() => {})
     await supabase.from('user_progress').select('*').eq('user_id', userId).maybeSingle().then(async ({ data: prog }) => {
       if (prog) {
         const p = prog as { xp: number; badges: string[] }
@@ -471,6 +490,11 @@ function Results({ data, scores, overall, onReset }: { data: ProfileData; scores
             </div>
           ))}
         </div>
+      </div>
+
+      {/* AI Profile Analysis */}
+      <div className="mb-5">
+        <AiInsight type="profile_analysis" title="AI Profile Analysis" />
       </div>
 
       {/* Recommendations */}

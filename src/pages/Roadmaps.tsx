@@ -6,6 +6,7 @@ import {
   ClipboardCheck, Zap, Footprints,
 } from 'lucide-react'
 import { supabase, type Roadmap, type RoadmapTask } from '../lib/supabase'
+import AiInsight from '../components/AiInsight'
 
 type OutletContext = { addNotification: (title: string, message: string, type?: string, link?: string) => void; userId: string }
 
@@ -344,6 +345,11 @@ export default function Roadmaps() {
           </div>
         </div>
       )}
+
+      {/* AI Roadmap Suggestions */}
+      <div className="mb-6">
+        <AiInsight type="roadmap_suggestions" title="AI Roadmap Suggestions" />
+      </div>
 
       {/* Roadmaps List */}
       {roadmaps.length === 0 ? (

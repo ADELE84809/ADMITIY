@@ -6,6 +6,7 @@ import {
   CheckCircle2, ExternalLink as LinkIcon, Copy,
 } from 'lucide-react'
 import { supabase, type University } from '../lib/supabase'
+import AiInsight from '../components/AiInsight'
 
 type OutletContext = { addNotification: (title: string, message: string, type?: string, link?: string) => void; userId: string }
 
@@ -223,6 +224,15 @@ export default function UniversityDetail() {
           </div>
         </div>
       )}
+
+      {/* AI University Fit Analysis */}
+      <div className="mb-6">
+        <AiInsight
+          type="university_explanation"
+          title="Why This Matches You"
+          contextData={{ university: uni }}
+        />
+      </div>
 
       {/* CTA */}
       <div className="card p-5 bg-gradient-to-br from-primary-50 to-secondary-50 border-primary-100">

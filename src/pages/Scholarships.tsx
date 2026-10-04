@@ -4,6 +4,7 @@ import {
   Clock, TrendingUp, Award,
 } from 'lucide-react'
 import { supabase, type Scholarship } from '../lib/supabase'
+import AiInsight from '../components/AiInsight'
 
 const categoryColors: Record<string, string> = {
   'Merit': 'bg-primary-100 text-primary-700',
@@ -166,6 +167,15 @@ export default function Scholarships() {
               >
                 Apply Now <ExternalLink className="w-3.5 h-3.5" />
               </a>
+
+              <div className="mt-3">
+                <AiInsight
+                  type="scholarship_explanation"
+                  title="Why This May Be Relevant"
+                  compact
+                  contextData={{ scholarship: { name: s.name, provider: s.provider, amount: s.amount, deadline: s.deadline, eligibility: s.eligibility, category: s.category, level: s.level, requirements: s.requirements } }}
+                />
+              </div>
             </div>
           ))}
         </div>
